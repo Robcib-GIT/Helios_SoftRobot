@@ -8,9 +8,9 @@ Title "Helios - Circuito Sensorizado"
 Date "2022-07-25"
 Rev "1"
 Comp ""
-Comment1 "R = 2M"
-Comment2 "VCC: 5V"
-Comment3 "O0, O1, O2, O3: Salidas fotodiodos"
+Comment1 "VCC: 5V"
+Comment2 "O0, O1, O2, O3: Salidas fotodiodos"
+Comment3 ""
 Comment4 "Autor: Jaime Bravo Algaba"
 $EndDescr
 $Comp
