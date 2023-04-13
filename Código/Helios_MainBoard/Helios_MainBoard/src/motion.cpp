@@ -1,11 +1,5 @@
-#define   STP_EN  8
-#define   MA_DIR  5 //Stepper shield: X_DIR
-#define   MB_DIR  7 //Stepper shield: Y_DIR
-#define   MC_DIR  7 //Stepper shield: Z_DIR
-
-#define   MA_STP  2 //Stepper shield: X_STP
-#define   MB_STP  3 //Stepper shield: Y_STP
-#define   MC_STP  4 //Stepper shield: Z_STP
+#include <Arduino.h>
+#include <motion.h>
 
 void testBenchInit()
 {
@@ -44,28 +38,4 @@ void moveStepper(char mot, int nSteps, int dir, int stepDelay)
       digitalWrite(stepPin, LOW);
       delayMicroseconds(stepDelay);
    }  
-}
-
-void setup()
-{
-  testBenchInit();
-  digitalWrite(STP_EN, LOW);
-  Serial.begin(9600);
-}
-
-void loop()
-{ 
-  for(int i=0; i<2000; ++i)
-  {
-    moveStepper('A', 1, 1, 75);
-    moveStepper('C', 1, 0, 75);
-  }
-  delay(1000);
-
-  for(int i=0; i<2000; ++i)
-  {
-    moveStepper('A', 1, 0, 75);
-    moveStepper('C', 1, 1, 75);
-  }
-  delay(1000);
 }
