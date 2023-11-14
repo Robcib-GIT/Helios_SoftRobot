@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 36,
+    "active_layer": 37,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
@@ -14,13 +14,12 @@
       "vias": 1.0,
       "zones": 0.6
     },
-    "ratsnest_display_mode": 0,
     "selection_filter": {
       "dimensions": true,
       "footprints": true,
       "graphics": true,
       "keepouts": true,
-      "lockedItems": true,
+      "lockedItems": false,
       "otherItems": true,
       "pads": true,
       "text": true,
@@ -35,12 +34,12 @@
       3,
       4,
       5,
+      8,
       9,
       10,
       11,
       12,
       13,
-      14,
       15,
       16,
       17,
@@ -61,13 +60,15 @@
       33,
       34,
       35,
-      36
+      36,
+      39,
+      40
     ],
-    "visible_layers": "ffc1030_ffffffff",
+    "visible_layers": "8081130_ffffffff",
     "zone_display_mode": 0
   },
   "meta": {
-    "filename": "Helios_PCB_receiver.kicad_prl",
+    "filename": "Helios_PCB_panel.kicad_prl",
     "version": 3
   },
   "project": {
