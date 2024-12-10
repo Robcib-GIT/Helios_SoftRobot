@@ -1,25 +1,3 @@
-Initializing Helios module on address 72
-OK
-Initializing TCA9548A with address 112
-Success booting TOF on channel 0
-Success booting TOF on channel 1
-Success booting TOF on channel 2
-Success booting TOF on channel 3
-OK
-""
-Initialization successful!
-Starting calibration... Initializing Helios module on address 72
-OK
-Initializing TCA9548A with address 112
-Success booting TOF on channel 0
-Success booting TOF on channel 1
-Success booting TOF on channel 2
-Success booting TOF on channel 3
-OK
-""
-Initialization successful!
-Starting calibration... OK
-theta, phi, L, h0, h1, h2, h3
 54,64,59,60,976259,855723,1465502,924291
 56,72,61,55,976512,869894,1463984,911385
 57,77,63,51,979043,885072,1463984,902777
@@ -268,4 +246,3 @@ theta, phi, L, h0, h1, h2, h3
 64,61,54,66,983091,850658,1452086,923784
 59,59,57,65,976765,852940,1461702,923527
 55,60,61,63,972211,855972,1470567,923279
-Test complete!
