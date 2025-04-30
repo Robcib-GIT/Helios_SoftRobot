@@ -1,5 +1,6 @@
 #include <HeliosPanel.h>
 #include <micro_ros_platformio.h>
+#include <WiFi.h>
 
 // ROS2 libraries for creating nodes, publishers, and executors
 #include <rcl/rcl.h>
@@ -11,12 +12,6 @@
 #include <std_msgs/msg/float32_multi_array.h>
 #include <std_msgs/msg/string.h>
 #include "rosidl_runtime_c/string.h"
-
-// Ensure that the transport layer being used is Arduino Serial.
-// If it's not, compilation is stopped and error is printed.
-#if !defined(MICRO_ROS_TRANSPORT_ARDUINO_SERIAL)
-#error This project is only available for Arduino framework with serial transport.
-#endif
 
 // Define ROS2 objects for a publisher, a message, an executor, support objects, an allocator, a node, and a timer
 rcl_subscription_t subscriber_lengths;
@@ -105,17 +100,24 @@ void sensors_callback(rcl_timer_t * timer, int64_t last_call_time)
   RCCHECK(rcl_publish(&publisher_sensors, &msg_sensors, NULL));
 }
 
-void setup() {  // Initialize Robot
+void setup() {  
+  // Initialize Robot
   initSensor();
   initActuator();
 
   // Turn off motors
   disableSection(SEC_ALL);
 
-  // Initialize ROS2
-  Serial.begin(115200);   // Start serial communication with a baud rate of 115200
-  set_microros_serial_transports(Serial);   // Configure Micro-ROS library to use Arduino serial
-  delay(2000);
+  // Initialize ROS2 over WiFi
+  Serial.begin(115200); // Optional: Keep for debugging
+  char ssid[] = "robcib2023";
+  char psk[] = "robcib2023";
+  IPAddress agent_ip(192, 168, 2, 76); // My computer IP address
+  uint16_t agent_port = 8888; // Changed to standard Micro-ROS UDP port
+
+  //set_microros_serial_transports(Serial);   // Configure Micro-ROS library to use Arduino serial
+  set_microros_wifi_transports(ssid, psk, agent_ip, agent_port); // Configure Micro-ROS library to use Arduino wifi
+  delay(2000); // Allow time for WiFi connection
 
   allocator = rcl_get_default_allocator();  // Get the default memory allocator provided by rcl
 
@@ -129,7 +131,7 @@ void setup() {  // Initialize Robot
   RCCHECK(rclc_subscription_init_default(&subscriber_lengths, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32MultiArray), "helios_cables_cmd"));
   RCCHECK(rclc_subscription_init_default(&subscriber_tool, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8), "helios_tool_cmd"));
 
-	RCCHECK(rclc_timer_init_default(&timer, &support, RCL_MS_TO_NS(READ_DELAY), sensors_callback));
+  RCCHECK(rclc_timer_init_default(&timer, &support, RCL_MS_TO_NS(READ_DELAY), sensors_callback));
 
   // Create an executor. IMPORTANT: Don't forget to increase the number of handles (3) when adding a new element.  
   RCCHECK(rclc_executor_init(&executor, &support.context, 3, &allocator));
@@ -138,8 +140,6 @@ void setup() {  // Initialize Robot
     RCCHECK(rclc_executor_add_subscription(&executor, &subscriber_tool, &msg_tool, &tool_callback, ON_NEW_DATA));
 
   // Memory allocation - msg_lengths
-  // Init the memory of your array in order to provide it to the executor.
-  // If a message from ROS comes and it is bigger than this, it will be ignored, so ensure that capacities here are big enough.
   msg_lengths.data.capacity = 12; 
   msg_lengths.data.size = 0;
   msg_lengths.data.data = (float*) malloc(msg_lengths.data.capacity * sizeof(float));
@@ -170,19 +170,19 @@ void setup() {  // Initialize Robot
   }
 
   // Fill the msg_debug string with a known sequence
-	msg_debug.data.data = (char * ) malloc(140 * sizeof(char));
-	msg_debug.data.size = 0;
-	msg_debug.data.capacity = 140;
+  msg_debug.data.data = (char * ) malloc(140 * sizeof(char));
+  msg_debug.data.size = 0;
+  msg_debug.data.capacity = 140;
 
-  //Check I2C devices
+  // Check I2C devices
   for(uint8_t i=0; i<N_SENSORS; ++i)
   {
     if(i2cCheckDevice(I2C_SENSOR_ADDR[i]))
     {
       // Publish the found device to the ROS2 debug topic
       sprintf(msg_debug.data.data, "Sensor found at address 0x%x", I2C_SENSOR_ADDR[i]);
-		  msg_debug.data.size = strlen(msg_debug.data.data);
-		  RCSOFTCHECK(rcl_publish(&publisher_debug, &msg_debug, NULL));
+      msg_debug.data.size = strlen(msg_debug.data.data);
+      RCSOFTCHECK(rcl_publish(&publisher_debug, &msg_debug, NULL));
     }
   }
 
@@ -190,8 +190,8 @@ void setup() {  // Initialize Robot
     {
       // Publish the found device to the ROS2 debug topic
       sprintf(msg_debug.data.data, "Tool found at address 0x%x", I2C_TOOL_ADDR);
-		  msg_debug.data.size = strlen(msg_debug.data.data);
-		  RCSOFTCHECK(rcl_publish(&publisher_debug, &msg_debug, NULL));
+      msg_debug.data.size = strlen(msg_debug.data.data);
+      RCSOFTCHECK(rcl_publish(&publisher_debug, &msg_debug, NULL));
     }
 
   //calibrate();
@@ -203,4 +203,3 @@ void loop() {
   // Execute pending tasks in the executor. This will handle all ROS communications.
   RCSOFTCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(100)));
 }
- 
