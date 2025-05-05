@@ -40,6 +40,9 @@ float a[4] = {0,0,0,0};
 float b[4] = {0,0,0,0};
 float c[4] = {0,0,0,0};
 
+char ssid[] = "robcib2023";
+char psk[] = "robcib2023";
+
 // Infinite error loop function. If something fails, the device will get stuck here
 void error_loop() {
   while(1) {
@@ -108,14 +111,17 @@ void setup() {
   // Turn off motors
   disableSection(SEC_ALL);
 
+  // Initialize ROS2 with serial transport
+  // Serial.begin(115200); // Initialize serial for Micro-ROS
+  // Serial.println("Initializing Micro-ROS...");
+  // set_microros_serial_transports(Serial);
+  // Serial.println("Configured serial transports");
+  // delay(2000); // Allow time for serial connection
+
   // Initialize ROS2 over WiFi
   Serial.begin(115200); // Optional: Keep for debugging
-  char ssid[] = "robcib2023";
-  char psk[] = "robcib2023";
-  IPAddress agent_ip(192, 168, 2, 76); // My computer IP address
+  IPAddress agent_ip(192, 168, 2, 76); // Agent IP address
   uint16_t agent_port = 8888; // Changed to standard Micro-ROS UDP port
-
-  //set_microros_serial_transports(Serial);   // Configure Micro-ROS library to use Arduino serial
   set_microros_wifi_transports(ssid, psk, agent_ip, agent_port); // Configure Micro-ROS library to use Arduino wifi
   delay(2000); // Allow time for WiFi connection
 
