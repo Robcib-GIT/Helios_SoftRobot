@@ -72,6 +72,7 @@ En el terminal :
 ```bash
 ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888
 ```
+Haga clic en el botón RESET en el esp32.
 
 **Control por terminal**
 -----------
