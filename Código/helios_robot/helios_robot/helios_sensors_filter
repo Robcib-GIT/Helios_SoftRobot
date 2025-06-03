@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import Float32MultiArray
+import numpy as np
+
+class SensorFilterNode(Node):
+    def __init__(self):
+        super().__init__('sensor_filter_node')
+
+        # Subscriber: raw sensor data on '/helios_sensors'
+        self.subscription = self.create_subscription(
+            Float32MultiArray,
+            '/helios_sensors',
+            self.sensor_callback,
+            10)
+        # Publisher: filtered median data on '/helios_sensors_filtered'
+        self.publisher = self.create_publisher(
+            Float32MultiArray,
+            '/helios_sensors_filtered',
+            10)
+
+        # Number of channels per message (exactly 24 floats expected) :contentReference[oaicite:6]{index=6}
+        self.num_channels = 24
+
+        # For each channel i, maintain a sliding window of up to 3 raw values
+        # We use a Python list of NumPy arrays, each of shape (0,) initially
+        self.buffers = [list() for _ in range(self.num_channels)]
+
+        # Track how many callbacks we've processed; we only publish after the third callback
+        self.callback_count = 0
+
+        self.get_logger().info(
+            f"SensorFilterNode initialized: expecting {self.num_channels} channels; "
+            f"will apply median-of-three filter."
+        )  # Log initialization :contentReference[oaicite:7]{index=7}
+
+    def sensor_callback(self, msg: Float32MultiArray):
+        # Convert incoming data to NumPy array of float32 :contentReference[oaicite:8]{index=8}
+        sensor_data = np.array(msg.data, dtype=np.float32)
+
+        # Sanity check: must receive exactly 24 values
+        if sensor_data.size != self.num_channels:
+            self.get_logger().warn(
+                f"Expected {self.num_channels} values, received {sensor_data.size}"
+            )  # Warn if mismatch and skip processing :contentReference[oaicite:9]{index=9}
+            return
+
+        # Increment callback counter
+        self.callback_count += 1
+
+        # For each channel, append the new raw value to its buffer (max length 3)
+        for i in range(self.num_channels):
+            self.buffers[i].append(sensor_data[i])
+            # If buffer length exceeds 3, pop the oldest (index 0) to keep only last 3
+            if len(self.buffers[i]) > 3:
+                self.buffers[i].pop(0)
+
+        # Until we've collected 3 samples (per channel), we do not publish any filtered data
+        if self.callback_count < 3:
+            self.get_logger().debug(
+                f"Callback {self.callback_count}: buffering data (no publish yet)."
+            )
+            return
+
+        # Now that each buffer has exactly 3 samples, compute the median-of-three per channel
+        filtered_data = np.zeros(self.num_channels, dtype=np.float32)
+        for i in range(self.num_channels):
+            # buffers[i] is a list of length 3: `[prev2, prev1, current]`
+            window = self.buffers[i]
+            # Convert to NumPy array to use np.median :contentReference[oaicite:10]{index=10}
+            window_array = np.array(window, dtype=np.float32)
+            
+            if ((self_buffer[i-1] > self_buffer[i] and self_buffer[i-1] < self[i-2]) or (self_buffer[i-1] < self_buffer[i] and self_buffer[i-1] > self[i-2]) :
+                filtered_data[i] = self_buffer[i]
+
+            else :
+		filtered_data[i] = self_buffer[i-1]
+
+        # Prepare and publish the filtered data as Float32MultiArray :contentReference[oaicite:11]{index=11}
+        filtered_msg = Float32MultiArray()
+        filtered_msg.data = filtered_data.tolist()
+        self.publisher.publish(filtered_msg)
+        self.get_logger().info(
+            f"Published median-of-three filtered data (callback {self.callback_count}): {filtered_data.tolist()}"
+        )
+
+    def destroy_node(self):
+        # Override to log shutdown
+        self.get_logger().info("Shutting down SensorFilterNode.")
+        super().destroy_node()
+
+def main(args=None):
+    rclpy.init(args=args)  # Initialize ROS 2 :contentReference[oaicite:12]{index=12}
+    node = SensorFilterNode()
+    try:
+        rclpy.spin(node)  # Keep the node alive to process callbacks :contentReference[oaicite:13]{index=13}
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()  # Clean shutdown :contentReference[oaicite:14]{index=14}
+
+if __name__ == '__main__':
+    main()

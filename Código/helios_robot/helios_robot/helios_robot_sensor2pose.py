@@ -13,7 +13,9 @@ class SensorToPoseNode(Node):
         self.publisher = self.create_publisher(Float32MultiArray, 'helios_pose_meas', 10)
 
         # Load the pretrained AI models
+        #folder = os.getcwd() + '/helios_ws/src/helios_robot/models/'
         folder = os.getcwd() + '/helios_ws/src/helios_robot/models/'
+
         self.models = []
         self.models.append(tf.keras.models.load_model(folder + 'nn_0x40.keras'))
         self.models.append(tf.keras.models.load_model(folder + 'nn_0x41.keras'))
