@@ -1,0 +1,215 @@
+#!/usr/bin/env python3
+import rclpy
+from rclpy.node import Node
+from rclpy.executors import MultiThreadedExecutor
+from std_msgs.msg import Float32MultiArray
+import numpy as np
+import matplotlib.pyplot as plt
+from numpy import cos, sin, pi, sqrt, linspace
+import threading
+import time
+import sys
+
+def rot_matrix(axis, angle):
+    x, y, z = axis
+    c = cos(angle)
+    s = sin(angle)
+    return np.array([[c + x**2*(1-c), x*y*(1-c) - z*s, x*z*(1-c) + y*s],
+                     [y*x*(1-c) + z*s, c + y**2*(1-c), y*z*(1-c) - x*s],
+                     [z*x*(1-c) - y*s, z*y*(1-c) + x*s, c + z**2*(1-c)]])
+
+def parametric_arc(L, theta, N=10):
+    if theta == 0:
+        z = linspace(0, L, N)
+        x = np.zeros_like(z)
+        y = np.zeros_like(z)
+        return x, y, z
+    R = L / theta
+    # Debug: Check for unreasonable radius values
+    if abs(R) > 1000:  # Arbitrary large threshold
+        print(f"Warning: Large radius R={R:.2f} for L={L}, theta={theta:.4f} rad ({theta*180/pi:.2f} deg)")
+    theta_i = linspace(0, theta, N)
+    z = R * sin(theta_i)
+    x = -sqrt(R**2 - z**2) + R
+    y = np.zeros_like(x)
+    return x, y, z
+
+def parametric_pcc(L, theta, phi, N=10, p0=[0,0,0]):
+    if not (len(L) == len(theta) == len(phi)):
+        raise ValueError("L, theta, phi must have the same length")
+    n_arcs = len(L)
+    current_rotation = np.eye(3)
+    current_position = np.array(p0)
+    all_points = []
+    knots = [current_position.copy()]
+    for i in range(n_arcs): #n_arcs
+        x_local, y_local, z_local = parametric_arc(L[i], theta[i], N)
+        points_local = np.vstack((x_local, y_local, z_local))
+        segment_rotation = rot_matrix([0, 0, 1], phi[i])
+        current_rotation = current_rotation @ segment_rotation
+        points_global = current_rotation @ points_local + current_position[:, np.newaxis]
+        current_position = points_global[:, -1].copy()
+        all_points.append(points_global)
+        knots.append(current_position.copy())
+    combined = np.hstack(all_points)
+    return combined[0], combined[1], combined[2], knots
+
+class HeliosPlotNode(Node):
+    def __init__(self):
+        super().__init__('helios_plot_node')
+        self.subscription = self.create_subscription(
+            Float32MultiArray,
+            '/helios_pose_meas',
+            self.listener_callback,
+            10)
+        self.lock = threading.Lock()
+        self.latest_data = None
+        self.data_updated = False
+        self.get_logger().info("Node started, subscribing to /helios_pose_meas")
+
+    def listener_callback(self, msg):
+        self.get_logger().info(f"Received message: {msg.data}")
+        try:
+            data = msg.data
+            if len(data) not in [10, 12]:
+                self.get_logger().warn(f"Unexpected data length: {len(data)}")
+                return
+            
+            # Extract data, handling the case where data length is 12 with nan values
+            if len(data) == 12:
+                # Skip the nan values at positions 5 and 11
+                theta_data = data[0:5]
+                phi_data = data[6:11]  # Skip position 5 (nan)
+            else:
+                # Standard case with 10 values
+                theta_data = data[0:5]
+                phi_data = data[5:10]
+            
+            self.get_logger().info(f"Raw theta (degrees): {theta_data}")
+            self.get_logger().info(f"Raw phi (degrees): {phi_data}")
+            
+            # Check for nan values and convert to radians ONLY ONCE
+            theta_clean = []
+            phi_clean = []
+            
+            for i, (t, p) in enumerate(zip(theta_data, phi_data)):
+                if not (np.isnan(t) or np.isnan(p)):
+                    # Convert degrees to radians - data IS in degrees
+                    theta_clean.append(t * (pi / 180))
+                    phi_clean.append(p * (pi / 180))
+                else:
+                    self.get_logger().warn(f"NaN detected at segment {i}, using 0.0")
+                    theta_clean.append(0.0)
+                    phi_clean.append(0.0)
+            
+            # Ensure we have exactly 5 segments
+            while len(theta_clean) < 5:
+                theta_clean.append(0.0)
+                phi_clean.append(0.0)
+            
+            theta_rad = theta_clean[:5]
+            phi_rad = phi_clean[:5]
+            
+            with self.lock:
+                self.latest_data = (theta_rad, phi_rad)
+                self.data_updated = True
+                # Log the converted values back to degrees for verification
+                self.get_logger().info(f"Converted theta (degrees): {[t*180/pi for t in theta_rad]}")
+                self.get_logger().info(f"Converted phi (degrees): {[p*180/pi for p in phi_rad]}")
+                
+        except Exception as e:
+            self.get_logger().error(f"Processing error: {e}")
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = HeliosPlotNode()
+    
+    # Start ROS executor in a separate thread
+    executor = MultiThreadedExecutor()
+    executor.add_node(node)
+    executor_thread = threading.Thread(target=executor.spin)
+    executor_thread.daemon = True
+    executor_thread.start()
+    
+    # Setup plot in the main thread
+    plt.ion()  # Turn on interactive mode
+    fig = plt.figure(figsize=(10, 7))
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_title('Helios Continuum Arm')
+    ax.set_xlabel('X (cm)')
+    ax.set_ylabel('Y (cm)')
+    ax.set_zlabel('Z (cm)')
+    lim = 35
+    ax.set_xlim(-lim, lim)
+    ax.set_ylim(-lim, lim)
+    ax.set_zlim(0, lim)
+    ax.grid(True)
+    ax.view_init(elev=30, azim=45)
+    
+    # Create initial plot objects
+    line, = ax.plot([], [], [], 'k-', linewidth=2.0)
+    scat = ax.scatter([], [], [], c='r', s=50)
+    
+    # Show initial straight arm configuration
+    theta = [0.0]*5
+    phi = [0.0]*5
+    L = [6.3] * 5
+    x, y, z, knots = parametric_pcc(L, theta, phi)
+    #takes rads ?
+
+    end_points = np.array(knots)
+    line.set_data(x, y)
+    line.set_3d_properties(z)
+    scat._offsets3d = (end_points[:,0], end_points[:,1], end_points[:,2])
+    
+    plt.tight_layout()
+    plt.show(block=False)
+    plt.draw()
+    
+    # Main loop - update plot in the main thread
+    try:
+        while rclpy.ok() and plt.fignum_exists(fig.number):
+            # Check for new data
+            with node.lock:
+                if node.data_updated:
+                    if node.latest_data is None:
+                        # Show straight arm configuration
+                        theta = [0.0]*5
+                        phi = [0.0]*5
+                        node.get_logger().info("Using default arm configuration")
+                    else:
+                        theta, phi = node.latest_data
+                        node.get_logger().info(f"Plotting with new data")
+                    node.data_updated = False
+            
+            # Update plot if there's new data or initially
+            if 'theta' in locals():
+                try:
+                    x, y, z, knots = parametric_pcc(L, theta, phi)
+                    end_points = np.array(knots)
+                    
+                    # Update plot data
+                    line.set_data(x, y)
+                    line.set_3d_properties(z)
+                    scat._offsets3d = (end_points[:,0], end_points[:,1], end_points[:,2])
+                    
+                    # Redraw the plot
+                    plt.draw()
+                    
+                except Exception as e:
+                    node.get_logger().error(f"Plotting error: {e}")
+            
+            # Process GUI events and pause
+            plt.pause(0.05)
+            
+    except KeyboardInterrupt:
+        node.get_logger().info("Keyboard interrupt received")
+    
+    # Cleanup
+    node.get_logger().info("Shutting down...")
+    plt.close('all')
+    executor.shutdown()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()

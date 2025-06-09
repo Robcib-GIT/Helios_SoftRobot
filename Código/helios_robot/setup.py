@@ -10,6 +10,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/helios_robot/launch', ['launch/plot_PCC_launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -31,7 +32,9 @@ setup(
             "helios_sensors_raw_plot = helios_robot.helios_sensors_raw_plot:main",
             "helios_sensors_normalized = helios_robot.helios_sensors_normalized:main",
             "helios_sensors_merged_plot = helios_robot.helios_sensors_merged_plot:main",
-            "helios_sensors_variation = helios_robot.helios_sensors_variation:main"
+            "helios_sensors_variation = helios_robot.helios_sensors_variation:main",
+            "helios_pose_plot = helios_robot.helios_robot_pose_plot:main",
+            "helios_plot_PCC = helios_robot.helios_robot_plot_PCC:main"
        ],
     },
 )

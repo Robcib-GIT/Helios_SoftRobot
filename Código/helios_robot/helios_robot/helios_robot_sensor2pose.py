@@ -9,12 +9,14 @@ from math import pi, sqrt, atan2
 class SensorToPoseNode(Node):
     def __init__(self):
         super().__init__('sensor_to_pose_node')
-        self.subscription = self.create_subscription(Float32MultiArray, 'helios_sensors', self.sensor_callback, 10)
+
+        #initially the node subscribes to "helios_sensors"
+        self.subscription = self.create_subscription(Float32MultiArray, 'helios_sensors_filtered', self.sensor_callback, 10)
         self.publisher = self.create_publisher(Float32MultiArray, 'helios_pose_meas', 10)
 
         # Load the pretrained AI models
         #folder = os.getcwd() + '/helios_ws/src/helios_robot/models/'
-        folder = os.getcwd() + '/helios_ws/src/helios_robot/models/'
+        folder = os.getcwd() + '/src/helios_robot/models/'
 
         self.models = []
         self.models.append(tf.keras.models.load_model(folder + 'nn_0x40.keras'))
@@ -33,23 +35,45 @@ class SensorToPoseNode(Node):
     def sensor_callback(self, msg):
         # Get the sensor values from the message
         sensor_values = msg.data
+       
+        sensor_values = list(msg.data)  # Make it a regular list
         
         theta = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         phi = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         
         # Predict the pose. Each model predicts two values: x and y
-        for index in range(6):
+        for index in range(6): #6 initially, will try 5
             # Compute the average of the four sensors
             sensor_avg = (sensor_values[index*4] + sensor_values[index*4+1] + sensor_values[index*4+2] + sensor_values[index*4+3]) / 4.0
 
             # Append the average to the sensor values
-            input_vector = sensor_values[index*4:index*4+4]
-            input_vector.append(sensor_avg)
+            #input_vector = sensor_values[index*4:index*4+1]  #input_vector = sensor_values[index*4:index*4+4
+            #input_vector.append(sensor_avg)            
+
+            #put only h02 and h13 in input vector :
+            #input_vector = [sensor_values[index*4]-sensor_values[index*4+2],sensor_values[index*4+1]-sensor_values[index*4+3]]
+            
+            h02 = sensor_values[index*4] - sensor_values[index*4+2]
+            h13 = sensor_values[index*4+1] - sensor_values[index*4+3]
+            input_vector = [h02, h13]            
+            
+            # Modified significativly : tried to put back hO2 and h13 instead of what was here	
+
+            print("....................................................", flush=True)
+            print(f"Index is : {index}", flush = True)
+            print(input_vector, flush = True)
+            print("....................................................", flush=True)
+
 
             # Predict the pose
             prediction = self.models[index](tf.constant([input_vector], dtype=tf.float32))
+            print("prediction", flush=True)
+
             euler_y = self.denormalize(float(prediction[0][0]), -60, 60)
+            print("euler_y", flush=True)
+
             euler_z = self.denormalize(float(prediction[0][1]), -60, 60)
+            print("euler_z", flush=True)
 
             theta[index] = sqrt(euler_y**2 + euler_z**2)
             phi[index] = atan2(euler_z, euler_y)*180/pi

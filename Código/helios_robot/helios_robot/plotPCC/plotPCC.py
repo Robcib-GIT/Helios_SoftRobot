@@ -98,8 +98,8 @@ def main():
 
     # L, theta an phi angles for each arc
     L = [8, 6, 4, 4, 2, 2]
-    theta = [pi/2, pi/4, pi/4, pi/3, pi/2, pi/2]
-    phi = [pi/2, 0, pi,0, 3*pi/2, 0]
+    theta = [pi/2, pi/4, pi/4, pi/3, pi/2, pi/2] #Here
+    phi = [pi/2, 0, pi,0, 3*pi/2, 0] #Here
 
     x, y, z, knots = parametric_pcc(L, theta, phi, N = 10, p0 = [0,0,0])
 
