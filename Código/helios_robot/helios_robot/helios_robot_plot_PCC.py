@@ -90,22 +90,30 @@ class PccRosNode(Node):
             self.theta = deg2rad(theta_deg)
             self.phi = deg2rad(phi_deg)
 
-    def timer_callback(self):
+    def timer_callback(self):    
         self.ax.cla()
         x, y, z, knots = parametric_pcc(self.L, self.theta, self.phi, N=10, p0=[0,0,0])
 
-        self.ax.plot(x, y, z, linewidth=2.0, c='k')
+        # Reverse the points for plotting
+        x_reversed = x[::-1]
+        y_reversed = y[::-1]
+        z_reversed = z[::-1]
+        self.ax.plot(x_reversed, y_reversed, z_reversed, linewidth=2.0, c='k')
+
+        # Reverse knots for consistency
+        knots_reversed = knots[::-1]
+        end_points_reversed = np.array(knots_reversed)
+        self.ax.scatter(end_points_reversed[:,0], end_points_reversed[:,1], end_points_reversed[:,2], c='r', marker='o')
+
         self.ax.set_xlabel('X')
         self.ax.set_ylabel('Y')
         self.ax.set_zlabel('Z')
 
-        l = 25
+        l = 30
         self.ax.set_xlim([-l, l])
         self.ax.set_ylim([-l, l])
-        self.ax.set_zlim([0, l])
+        self.ax.set_zlim(l, 0)  # Set Z-axis from 25 (bottom) to 0 (top)
 
-        end_points = np.array(knots)
-        self.ax.scatter(end_points[:,0], end_points[:,1], end_points[:,2], c='r', marker='o')
         plt.draw()
         plt.pause(0.01)
 
