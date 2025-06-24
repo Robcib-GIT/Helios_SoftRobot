@@ -34,7 +34,10 @@ setup(
             "helios_sensors_merged_plot = helios_robot.helios_sensors_merged_plot:main",
             "helios_sensors_variation = helios_robot.helios_sensors_variation:main",
             "helios_pose_plot = helios_robot.helios_robot_pose_plot:main",
-            "helios_plot_PCC = helios_robot.helios_robot_plot_PCC:main"
+            "helios_plot_PCC = helios_robot.helios_robot_plot_PCC:main",
+            "helios_inversed_kinematic = helios_robot.helios_robot_reversed_kinematic:main",
+            "helios_inversed_kinematic_plot = helios_robot.helios_robot_plot_reversed_kinematic:main"
+
        ],
     },
 )
