@@ -41,15 +41,14 @@ class SensorToPoseNode(Node):
         return data * (max - min) + min
     
     def sensor_callback(self, msg):
-        # Get the sensor values from the message
+    # Get the sensor values from the message
         sensor_values = msg.data
-       
         sensor_values = list(msg.data)  # Make it a regular list
-        
+    
         theta = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         phi = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        
-        # Predict the pose. Each model predicts two values: x and y
+    
+    # Predict the pose. Each model predicts two values: x and y
         for position in range(5): #6 initially, will try 5
             if position == 0 : 
                 index = 4
@@ -62,29 +61,19 @@ class SensorToPoseNode(Node):
             if position == 4 : 
                 index = 1
 
-            # Compute the average of the four sensors
+        # Compute the average of the four sensors
             sensor_avg = (sensor_values[index*4] + sensor_values[index*4+1] + sensor_values[index*4+2] + sensor_values[index*4+3]) / 4.0
 
-            # Append the average to the sensor values
-            #input_vector = sensor_values[index*4:index*4+1]  #input_vector = sensor_values[index*4:index*4+4
-            #input_vector.append(sensor_avg)            
-
-            #put only h02 and h13 in input vector :
-            #input_vector = [sensor_values[index*4]-sensor_values[index*4+2],sensor_values[index*4+1]-sensor_values[index*4+3]]
-            
             h02 = sensor_values[index*4] - sensor_values[index*4+2]
             h13 = sensor_values[index*4+1] - sensor_values[index*4+3]
             input_vector = [h02, h13]            
-            
-            # Modified significativly : tried to put back hO2 and h13 instead of what was here	
 
             print("....................................................", flush=True)
             print(f"Index is : {index}", flush = True)
             print(input_vector, flush = True)
             print("....................................................", flush=True)
 
-
-            # Predict the pose
+        # Predict the pose
             prediction = self.models[index](tf.constant([input_vector], dtype=tf.float32))
             print("prediction", flush=True)
 
@@ -94,16 +83,26 @@ class SensorToPoseNode(Node):
             euler_z = self.denormalize(float(prediction[0][1]), -60, 60)
             print("euler_z", flush=True)
 
-#            theta[position] = sqrt(euler_y**2 + euler_z**2)
-#            phi[position] = atan2(euler_z, euler_y)*180/pi
-            theta[position] = euler_y
-            phi[position] = euler_z 
-
-        # Create and publish the message with the predicted pose
+            theta[position] = np.sqrt(euler_y**2 + euler_z**2)
+            phi[position] = np.atan2(euler_z, euler_y)*180/np.pi
+    
+    # Convert to radians for computation
+        theta_rad = [np.deg2rad(t) for t in theta]
+        phi_rad = [np.deg2rad(p) for p in phi]
+    
+    # Compute the curve with L=[6.3]*6 for 6 segments
+        L = [6.3, 6.3, 6.3, 6.3, 6.3, 6.3]
+        _, _, _, knots = parametric_pcc(L, theta_rad, phi_rad, N=10, p0=[0,0,0])
+    
+    # Print the knots' coordinates
+        for i, knot in enumerate(knots):
+            self.get_logger().info(f"Knot {i}: ({knot[0]:.2f}, {knot[1]:.2f}, {knot[2]:.2f})")
+    
+    # Create and publish the message with the predicted pose
         pose_msg = Float32MultiArray()
-        pose_msg.data = theta+phi
+        pose_msg.data = theta + phi
         self.publisher.publish(pose_msg)
-
+    
 def main(args=None):
     rclpy.init(args=args)
     node = SensorToPoseNode()

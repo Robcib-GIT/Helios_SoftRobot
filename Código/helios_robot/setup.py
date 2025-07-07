@@ -10,7 +10,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/helios_robot/launch', ['launch/plot_PCC_launch.py']),
+        ('share/helios_robot/launch', ['launch/plot_PCC_launch.py','launch/mocap_optitrack_launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -33,11 +33,19 @@ setup(
             "helios_sensors_normalized = helios_robot.helios_sensors_normalized:main",
             "helios_sensors_merged_plot = helios_robot.helios_sensors_merged_plot:main",
             "helios_sensors_variation = helios_robot.helios_sensors_variation:main",
-            "helios_pose_plot = helios_robot.helios_robot_pose_plot:main",
             "helios_plot_PCC = helios_robot.helios_robot_plot_PCC:main",
             "helios_inversed_kinematic = helios_robot.helios_robot_reversed_kinematic:main",
-            "helios_inversed_kinematic_plot = helios_robot.helios_robot_plot_reversed_kinematic:main"
-
+            "helios_inversed_kinematic_plot = helios_robot.helios_robot_plot_reversed_kinematic:main",
+            "helios_robot_sensor2pose_2 = helios_robot.helios_robot_sensor2pose_2:main",
+            "helios_mocap = helios_robot.helios_robot_mocap:main",
+            "helios_robot_mocap_plot = helios_robot.helios_robot_mocap_plot.main",
+            "helios_robot_sensor2angle = helios_robot.helios_robot_sensor2angle:main",
+            "helios_pose_plot = helios_robot.helios_pose_plot:main",
+            "helios_test = helios_robot.helios_test:main",
+            "helios_IK = helios_robot.helios_IK:main",
+            "helios_IK_2 = helios_robot.helios_IK_2:main",
+            "helios_FK_compare = helios_robot.helios_FK_compare:main",
+            "helios_IK_3 = helios_robot.helios_IK_3:main"
        ],
     },
 )

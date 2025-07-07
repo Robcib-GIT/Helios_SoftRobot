@@ -107,7 +107,7 @@ class PccRosNode(Node):
         l = 30
         self.ax.set_xlim([-l, l])
         self.ax.set_ylim([-l, l])
-        self.ax.set_zlim(l, 0)  # Set Z-axis from 25 (bottom) to 0 (top)
+        self.ax.set_zlim(0, l)  # Set Z-axis from 25 (bottom) to 0 (top)
 
         plt.draw()
         plt.pause(0.01)

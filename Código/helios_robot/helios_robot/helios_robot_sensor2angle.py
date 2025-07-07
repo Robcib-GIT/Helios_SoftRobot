@@ -12,7 +12,7 @@ class SensorToPoseNode(Node):
 
         #initially the node subscribes to "helios_sensors"
         self.subscription = self.create_subscription(Float32MultiArray, 'helios_sensors_filtered', self.sensor_callback, 10)
-        self.publisher = self.create_publisher(Float32MultiArray, 'helios_pose_meas', 10)
+        self.publisher = self.create_publisher(Float32MultiArray, 'helios_angle_meas', 10)
 
         # Load the pretrained AI models
         #folder = os.getcwd() + '/helios_ws/src/helios_robot/models/'
@@ -94,10 +94,10 @@ class SensorToPoseNode(Node):
             euler_z = self.denormalize(float(prediction[0][1]), -60, 60)
             print("euler_z", flush=True)
 
-#            theta[position] = sqrt(euler_y**2 + euler_z**2)
-#            phi[position] = atan2(euler_z, euler_y)*180/pi
-            theta[position] = euler_y
-            phi[position] = euler_z 
+            theta[position] = sqrt(euler_y**2 + euler_z**2)
+            phi[position] = atan2(euler_z, euler_y)*180/pi
+#            theta[position] = euler_y
+#            phi[position] = euler_z 
 
         # Create and publish the message with the predicted pose
         pose_msg = Float32MultiArray()

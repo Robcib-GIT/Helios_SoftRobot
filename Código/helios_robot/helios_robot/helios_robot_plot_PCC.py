@@ -33,7 +33,9 @@ def parametric_arc(L, theta, N = 10):
 
 def parametric_pcc(L, theta, phi, N = 10, p0 = [0,0,0]):
     theta_prev = 0
-    rot_mat = rot_matrix([0,0,1], phi[0])
+#    rot_mat = rot_matrix([0,0,1], phi[0])
+
+    rot_mat = rot_mat = np.eye(3)
 
     x_combined = []
     y_combined = []
@@ -43,6 +45,9 @@ def parametric_pcc(L, theta, phi, N = 10, p0 = [0,0,0]):
 
     for i in range(6):
         x, y, z = parametric_arc(L[i], theta[i], N)
+
+#        rot_mat = np.dot(rot_mat, rot_matrix([0, 1, 0], theta_prev))
+#        rot_mat = np.dot(rot_mat, rot_matrix([0, 0, 1], phi[i]))
 
         rot_mat = np.dot(rot_mat, rot_matrix([0, 1, 0], theta_prev))
         rot_mat = np.dot(rot_mat, rot_matrix([0, 0, 1], phi[i]))
@@ -66,7 +71,7 @@ class PccRosNode(Node):
         super().__init__('pcc_ros_node')
         self.subscription = self.create_subscription(
             Float32MultiArray,
-            '/helios_pose_meas',
+            '/helios_angle_meas',
             self.sub_callback,
             10)
         self.theta = np.zeros(6)
@@ -93,30 +98,33 @@ class PccRosNode(Node):
     def timer_callback(self):    
         self.ax.cla()
         x, y, z, knots = parametric_pcc(self.L, self.theta, self.phi, N=10, p0=[0,0,0])
-
+    
+        # Print the positions of each point
+        for i, (xi, yi, zi) in enumerate(zip(x, y, z)):
+            self.get_logger().info(f"Point {i}: ({xi:.2f}, {yi:.2f}, {zi:.2f})")
+    
         # Reverse the points for plotting
         x_reversed = x[::-1]
         y_reversed = y[::-1]
         z_reversed = z[::-1]
         self.ax.plot(x_reversed, y_reversed, z_reversed, linewidth=2.0, c='k')
-
+    
         # Reverse knots for consistency
         knots_reversed = knots[::-1]
         end_points_reversed = np.array(knots_reversed)
         self.ax.scatter(end_points_reversed[:,0], end_points_reversed[:,1], end_points_reversed[:,2], c='r', marker='o')
-
+    
         self.ax.set_xlabel('X')
         self.ax.set_ylabel('Y')
         self.ax.set_zlabel('Z')
-
+    
         l = 30
         self.ax.set_xlim([-l, l])
         self.ax.set_ylim([-l, l])
         self.ax.set_zlim(l, 0)  # Set Z-axis from 25 (bottom) to 0 (top)
-
+    
         plt.draw()
         plt.pause(0.01)
-
 def main(args=None):
     rclpy.init(args=args)
     node = PccRosNode()
