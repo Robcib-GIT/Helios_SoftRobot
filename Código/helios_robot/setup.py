@@ -45,7 +45,11 @@ setup(
             "helios_IK = helios_robot.helios_IK:main",
             "helios_IK_2 = helios_robot.helios_IK_2:main",
             "helios_FK_compare = helios_robot.helios_FK_compare:main",
-            "helios_IK_3 = helios_robot.helios_IK_3:main"
+            "helios_IK_3 = helios_robot.helios_IK_3:main",
+            "helios_pose2cable = helios_robot.helios_pose2cable:main",
+            "helios_pose2cable_2 = helios_robot.helios_pose2cable_2:main",
+            "helios_compare_angles = helios_robot.helios_compare_angles:main",
+            "helios_robot_sensor2angle_2 = helios_robot.helios_robot_sensor2angle_2:main"
        ],
     },
 )

@@ -1,0 +1,152 @@
+running egg_info
+creating build/helios_robot/helios_robot.egg-info
+writing build/helios_robot/helios_robot.egg-info/PKG-INFO
+writing dependency_links to build/helios_robot/helios_robot.egg-info/dependency_links.txt
+writing entry points to build/helios_robot/helios_robot.egg-info/entry_points.txt
+writing requirements to build/helios_robot/helios_robot.egg-info/requires.txt
+writing top-level names to build/helios_robot/helios_robot.egg-info/top_level.txt
+writing manifest file 'build/helios_robot/helios_robot.egg-info/SOURCES.txt'
+reading manifest file 'build/helios_robot/helios_robot.egg-info/SOURCES.txt'
+writing manifest file 'build/helios_robot/helios_robot.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build
+creating /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib
+creating /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_sensors_normalized.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_test.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_pose2cable_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_sensors_filter.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_mocap_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_mocap.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_sensors_merged_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_IK_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_sensor2angle.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_sensors_variation.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_difference_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_FK_compare.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_sensor2pose.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_sensors_filter_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_IK_3.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_sensors_filtered_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_compare_angles.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_reversed_kinematic.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_pose_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_sensors_raw_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_calibration_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_sensor2pose_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_pose_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_sensor2angle.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/__init__.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_kine_pcc.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_calibration.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_plot_PCC.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_robot_plot_reversed_kinematic.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_IK.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+copying helios_robot/helios_pose2cable.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot
+running install
+running install_lib
+creating /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_sensors_normalized.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_test.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_pose2cable_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_sensors_filter.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_mocap_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_mocap.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_sensors_merged_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_IK_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_sensor2angle.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_sensors_variation.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_difference_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_FK_compare.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_sensor2pose.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_sensors_filter_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_IK_3.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_sensors_filtered_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_compare_angles.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_reversed_kinematic.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_pose_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_sensors_raw_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_calibration_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_sensor2pose_2.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_pose_plot.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_sensor2angle.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/__init__.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_kine_pcc.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_calibration.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_plot_PCC.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_robot_plot_reversed_kinematic.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_IK.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+copying /home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/build/lib/helios_robot/helios_pose2cable.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_sensors_normalized.py to helios_sensors_normalized.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_test.py to helios_test.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_pose2cable_2.py to helios_pose2cable_2.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_sensors_filter.py to helios_sensors_filter.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_mocap_plot.py to helios_robot_mocap_plot.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_mocap.py to helios_robot_mocap.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_sensors_merged_plot.py to helios_sensors_merged_plot.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_IK_2.py to helios_IK_2.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_sensor2angle.py to helios_sensor2angle.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_sensors_variation.py to helios_sensors_variation.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_difference_plot.py to helios_difference_plot.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_FK_compare.py to helios_FK_compare.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_sensor2pose.py to helios_robot_sensor2pose.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_sensors_filter_2.py to helios_sensors_filter_2.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_IK_3.py to helios_IK_3.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_sensors_filtered_plot.py to helios_sensors_filtered_plot.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_compare_angles.py to helios_compare_angles.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_reversed_kinematic.py to helios_robot_reversed_kinematic.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_pose_plot.py to helios_robot_pose_plot.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_sensors_raw_plot.py to helios_sensors_raw_plot.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_calibration_2.py to helios_robot_calibration_2.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_sensor2pose_2.py to helios_robot_sensor2pose_2.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_pose_plot.py to helios_pose_plot.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_sensor2angle.py to helios_robot_sensor2angle.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_kine_pcc.py to helios_robot_kine_pcc.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_calibration.py to helios_robot_calibration.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_plot_PCC.py to helios_robot_plot_PCC.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_robot_plot_reversed_kinematic.py to helios_robot_plot_reversed_kinematic.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_IK.py to helios_IK.cpython-310.pyc
+byte-compiling /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot/helios_pose2cable.py to helios_pose2cable.cpython-310.pyc
+running install_data
+creating /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/share/ament_index
+creating /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/share/ament_index/resource_index
+creating /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/share/ament_index/resource_index/packages
+copying resource/helios_robot -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/share/ament_index/resource_index/packages
+copying package.xml -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/share/helios_robot
+creating /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/share/helios_robot/launch
+copying launch/plot_PCC_launch.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/share/helios_robot/launch
+copying launch/mocap_optitrack_launch.py -> /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/share/helios_robot/launch
+running install_egg_info
+Copying build/helios_robot/helios_robot.egg-info to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/python3.10/site-packages/helios_robot-1.0-py3.10.egg-info
+running install_scripts
+Installing helios_FK_compare script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_IK script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_IK_2 script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_IK_3 script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_calibration script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_calibration_2 script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_compare_angles script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_diff_plot script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_inversed_kinematic script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_inversed_kinematic_plot script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_mocap script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_plot_PCC script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_pose2cable script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_pose2cable_2 script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_pose_plot script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_robot_kine_pcc script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_robot_mocap_plot script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_robot_sensor2angle script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_robot_sensor2pose script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_robot_sensor2pose_2 script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_sensors_filter script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_sensors_filter_2 script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_sensors_filtered_plot script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_sensors_merged_plot script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_sensors_normalized script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_sensors_raw_plot script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_sensors_variation script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+Installing helios_test script to /home/carpe-bleue/ROS/helios_ws/src/helios_robot/install/helios_robot/lib/helios_robot
+writing list of installed files to '/home/carpe-bleue/ROS/helios_ws/src/helios_robot/build/helios_robot/install.log'
