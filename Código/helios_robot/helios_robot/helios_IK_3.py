@@ -6,6 +6,7 @@ from scipy.optimize import minimize
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Point
+from std_msgs.msg import Float32MultiArray
 import matplotlib.pyplot as plt
 
 def rot_matrix(axis, angle):
@@ -70,29 +71,44 @@ def inverse_kinematics(x, y, z):
     frac = min(dist / max_length, 1.0)
     theta0 = math.radians(50) * frac
     guess = [theta0]*5 + [phi0]*5
+    # Fix φ[1] and φ[3] at zero in the initial guess
+    guess[6] = 0.0  # φ[1]
+    guess[8] = 0.0  # φ[3]
 
     def cost(vars):
         pos = forward_kinematics(vars)
         return np.sum((pos - target)**2)
 
     theta_max = math.radians(50)
-    bounds = [(0, theta_max)]*5 + [(-math.pi, math.pi)]*5
+    # Prepare bounds with φ[1] and φ[3] fixed
+    bounds = []
+    for i in range(5):
+        bounds.append((0, theta_max))
+    for j in range(5):
+        if j == 1 or j == 3:
+            bounds.append((0.0, 0.0))  # φ[1], φ[3] fixed
+        else:
+            bounds.append((-math.pi, math.pi))
 
-    res = minimize(
-        cost, guess, bounds=bounds, method='SLSQP',
-        options={'ftol': 1e-10, 'eps': 1e-12, 'maxiter': 1000}
-    )
+    res = minimize(cost, guess, bounds=bounds, method='SLSQP',
+                   options={'ftol': 1e-10, 'eps': 1e-12, 'maxiter': 1000})
 
     if not res.success:
-        print("res not success")
+        self.get_logger().info("IK solver failed or target unreachable.")
         return None
 
-    final_pos = forward_kinematics(res.x)
+    # Enforce zero exactly for numerical stability
+    solution = list(res.x)
+    solution[6] = 0.0
+    solution[8] = 0.0
+
+    final_pos = forward_kinematics(solution)
     if np.linalg.norm(final_pos - target) > 1e-4:
-        print("final_pose - target > 1e-4")
+        self.get_logger().info("final_pose - target > 1e-4")
         return None
-    print("return.x.tolist()")
-    return res.x.tolist()
+
+    return solution
+
 
 class HeliosPccNode(Node):
     def __init__(self):
@@ -102,6 +118,7 @@ class HeliosPccNode(Node):
             '/helios_target_position',
             self.target_callback,
             10)
+        self.angles_publisher = self.create_publisher(Float32MultiArray, 'helios_IK_angles', 10)
         self.theta = np.zeros(5)
         self.phi = np.zeros(5)
         self.L = [6.3]*5
@@ -117,16 +134,20 @@ class HeliosPccNode(Node):
             self.get_logger().info(f"Target ({x:.2f},{y:.2f},{z:.2f}) out of reach. Ignoring.")
             return
         angles = inverse_kinematics(x, y, z)
-        if angles is None:
+        if angles is not None:
+            self.theta = np.array(angles[:5])
+            self.phi = np.array(angles[5:])
+            msg = Float32MultiArray()
+            msg.data = angles
+            self.angles_publisher.publish(msg)
+            self.get_logger().info("Computed and published joint angles for target.")
+        else:
             self.get_logger().info("IK solver failed or target unreachable.")
-            return
-        self.theta = np.array(angles[:5])
-        self.phi = np.array(angles[5:])
-        self.get_logger().info("Computed joint angles for target.")
 
     def timer_callback(self):
         self.ax.cla()
         x_pts, y_pts, z_pts, knots = parametric_pcc(self.L, self.theta, self.phi, N=20, p0=[0,0,0])
+        print(knots[-1])
         self.ax.plot(x_pts, y_pts, z_pts, linewidth=2.0, c='k')
         end_points = np.array(knots)
         self.ax.scatter(end_points[:,0], end_points[:,1], end_points[:,2], c='r', marker='o')
