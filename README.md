@@ -68,13 +68,6 @@ Cambia tu dirección IP por 192.168.2.76 :
 
 Encienda el robot si aún no lo ha hecho.
 
-En el terminal :
-
-```bash
-ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888
-```
-Haga clic en el botón RESET en el esp32.
-
 **Control por terminal**
 -----------
 - Puede utilizarse el archivo helios_robot.sh para lanzar automáticamente los nodos necesarios:
@@ -83,6 +76,7 @@ Haga clic en el botón RESET en el esp32.
 # En la carpeta en la que se encuentre el archivo hacer:
 ./helios_robot.sh
 ```
+e inmediatamente después, hacer clic en el botón RESET del ESP32.
 
 - Lanzar el nodo de visualización:
 ```bash
