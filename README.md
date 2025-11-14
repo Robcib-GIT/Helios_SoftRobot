@@ -2,46 +2,46 @@
 =====================================
 ![Demo](Media/Vídeos/demo_movimiento.gif)
 
-**Instalación y Configuración**
+**Installation and Configuration**
 -------------------------------
 
-### Paso 1: Clonar el repositorio de Helios
+### Step 1: Clone the Helios repository
 
-Clona el repositorio de Helios utilizando Git:
+Clone the Helios repository using Git:
 
 ```bash
 git clone https://github.com/JaimeBravoAlgaba/Helios_SoftRobot.git
 ```
 
-### Paso 2: Crear un workspace de ROS2
+### Step 2: Create a ROS2 workspace
 
-Crea un directorio para el workspace de ROS2 y asegúrate de que esté vacío:
+Create a directory for the ROS2 workspace and make sure it's empty:
 
 ```bash
 mkdir -p helios_ws/src
 ```
 
-### Paso 3: Instalar el paquete de helios_robot en el workspace
+### Step 3: Install the helios_robot package in the workspace
 
-Copia el paquete de helios_robot al workspace de ROS2:
+Copy the helios_robot package to the ROS2 workspace:
 
 ```bash
 cp -r Helios_SoftRobot/Código/helios_robot helios_ws/src
 cd helios_ws/src
 ```
 
-### Paso 4: Instalar el paquete micro_ros_setup
+### Step 4: Install the micro_ros_setup package
 
-Clona el repositorio de micro_ros_setup y asegúrate de que esté en la rama correspondiente a tu versión de ROS2:
+Clone the micro_ros_setup repository and make sure it's on the branch corresponding to your ROS2 version:
 
 ```bash
 git clone https://github.com/micro-ROS/micro_ros_setup.git -b $ROS_DISTRO
 cd ..
 ```
 
-### Paso 5: Compilar el workspace
+### Step 5: Build the workspace
 
-Actualiza los dependencias y compila el workspace de ROS2:
+Update dependencies and build the ROS2 workspace:
 
 ```bash
 rosdep update && rosdep install --from-paths src --ignore-src -y
@@ -49,9 +49,9 @@ colcon build --symlink-install
 source install/local_setup.bash
 ```
 
-### Paso 6: Crear un agente de MicroROS
+### Step 6: Create a MicroROS agent
 
-Crea un agente de MicroROS y configura el entorno:
+Create a MicroROS agent and configure the environment:
 
 ```bash
 ros2 run micro_ros_setup create_agent_ws.sh
@@ -60,77 +60,77 @@ source install/local_setup.sh
 ```
 
 
-### Paso 7: Conectarse al ESP32 y ejecutar el agente
+### Step 7: Connect to the ESP32 and run the agent
 
-Cambia tu dirección IP por 192.168.2.76 : 
+Change your IP address to 192.168.2.76:
 
 ![image](https://github.com/user-attachments/assets/b8df0da8-761b-4295-9cd1-7558f4a52867)
 
-Encienda el robot si aún no lo ha hecho.
+Turn on the robot if you haven't already.
 
-**Control por terminal**
+**Terminal Control**
 -----------
-- Puede utilizarse el archivo helios_robot.sh para lanzar automáticamente los nodos necesarios:
+- You can use the helios_robot.sh file to automatically launch the necessary nodes:
 ```bash
-# Lanza el agente de MicroROS, la cinemática y la predicción de pose
-# En la carpeta en la que se encuentre el archivo hacer:
+# Launches the MicroROS agent, kinematics and pose prediction
+# In the folder where the file is located, run:
 ./helios_robot.sh
 ```
-e inmediatamente después, hacer clic en el botón RESET del ESP32.
+and immediately after, click the RESET button on the ESP32.
 
-- Lanzar el nodo de visualización:
+- Launch the visualization node:
 ```bash
 ros2 run helios_robot helios_robot_plot
 ```
 
-- Controlar la longitud de los cables, en metros:
+- Control the cable lengths, in meters:
 ```bash
 # [L00, L01, L02, L03, L10, L11, ... L22, L23]
 ros2 topic pub --once /helios_cables_cmd std_msgs/msg/Float32MultiArray "data: [0,0,0,0,  0,0,0,0,  0,0,0,0]"
 ```
 
-- Enviar comando en coordenadas theta y phi, en radianes:
+- Send command in theta and phi coordinates, in radians:
 ```bash
 # [th0, th1, th2, phi0, phi1, phi2]
 ros2 topic pub --once /helios_sections_cmd std_msgs/msg/Float32MultiArray "data: [0,0,0,  0,0,0]"
 ```
 
-- Controlar la herramienta (dato de 0 a 255):
+- Control the tool (value from 0 to 255):
 ```bash
 ros2 topic pub --once /helios_tool_cmd std_msgs/msg/Int8 "data: 127"
 ```
 
 
-### Alternativa : Conectarse al ESP32 via USB
+### Alternative: Connect to ESP32 via USB
 
-Se puede utilisar el Helios con un cable USB :
-Conecta el ESP32 al puerto USB y cargue el proyecto esp32 después de descomentar las líneas que permiten la conexión serial en el "main.cpp" y cambiar board_microros_transport por "serial" en el archivo platformio.ini
+You can use the Helios with a USB cable:
+Connect the ESP32 to the USB port and upload the esp32 project after uncommenting the lines that allow serial connection in "main.cpp" and changing board_microros_transport to "serial" in the platformio.ini file
 
-Ejecuta el agente de MicroROS con :
+Run the MicroROS agent with:
 
 ```bash
 ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
 ```
 
 
-### Resolución de errores comunes
+### Common Error Resolution
 
-Si aparece un error al conectar el ESP32, asegúrate de conceder acceso a tu usuario al puerto USB ttyUSB0:
+If an error appears when connecting the ESP32, make sure to grant your user access to the ttyUSB0 USB port:
 
-1. Comprueba el grupo de usuarios que tiene acceso al puerto:
+1. Check the user group that has access to the port:
 ```bash
 stat /dev/ttyUSB0
 ```
 
-Debería aparecer algo como: "Gid: (   20/ dialout)"
+It should show something like: "Gid: (   20/ dialout)"
 
-2. Añade tu usuario al grupo "dialout" o el que haya aparecido:
+2. Add your user to the "dialout" group or whichever group appeared:
 ```bash
 sudo usermod -a -G dialout $USER
 ```
-3. Da permisos de lectura y escritura al puerto:
+3. Grant read and write permissions to the port:
 ```bash
 sudo chmod a+rw /dev/ttyUSB0
 ```
 
-Después de resetear el ESP32, deberían escucharse sus topics desde otro terminal.
+After resetting the ESP32, its topics should be visible from another terminal.
